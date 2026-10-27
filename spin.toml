@@ -1,0 +1,28 @@
+#:schema https://schemas.spinframework.dev/spin/manifest-v2/latest.json
+
+spin_manifest_version = 2
+
+[application]
+name = "reviewer"
+version = "0.1.0"
+authors = ["Thorsten Hans <thans@akamai.com>"]
+description = ""
+
+[variables]
+webhook_secret = { required = true, secret = true }
+
+[[trigger.http]]
+route = "/webhooks/pr"
+component = "pr-webhook"
+
+[component.pr-webhook]
+source = "pr-webhook/dist/pr-webhook.wasm"
+allowed_outbound_hosts = []
+
+[component.pr-webhook.variables]
+webhook_secret = "{{ webhook_secret }}"
+
+[component.pr-webhook.build]
+command = "npm install && npm run build"
+workdir = "pr-webhook"
+

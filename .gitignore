@@ -1,0 +1,3 @@
+main.wasm
+.spin/
+hot-vars.json
